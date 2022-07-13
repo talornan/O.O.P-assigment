@@ -1,0 +1,116 @@
+-@startuml
+'https://plantuml.com/sequence-diagram
+
+
+interface ElevatorAlgo {
++ getBuilding() : String
++ algoName : String
++ allocateAnElevator(CallForElevator c) : int
++ cmdElevator(int elev) : void
+}
+
+class ElevatorAlgorithm {
+- Building
+-List<ElevatorPrioritiesQueue> elevatorFutureDestinationEnter
+- List<ElevatorPrioritiesQueue> elevatorFutureDestinationExit
+-private ElevatorDestination[] elevatorsCurrentDestination
++getBuilding() : Building
++algoName() : String
+-isValidCall(CallForElevator c): void
+- calcTotalTimeForElevator(CallForElevator c, Elevator elevator) : double
+- selectRecommendElevator(List<ElevatorTimeEstimation> validElevator) : int
++ allocateAnElevator(CallForElevator c) : int
+- addOldToHeadOfQueue(int elev) : void
+- changeElevatorDestination(CallForElevator call, int i) : void
+- chooseElevator(CallForElevator call) : int
++ cmdElevator(int elev) :  void
+}
+
+class ElevatorDestination {
+- CallForElevator call
++ ElevatorDestination(CallForElevator call) : call
++ getTargetFloor() : int
++ getCall() : CallForElevator
++ setCall(CallForElevator call) :
+}
+
+class ElevatorPrioritiesQueue {
+- List<CallForElevator> priorities
++ addCall(CallForElevator call) : void
++ addCallToHead(CallForElevator call) : void
++ peek() : CallForElevator
++ poll() : CallForElevator
++ isEmpty() : boolean
++ size() : int
++ get(int i) : CallForElevator
++ set(int i, CallForElevator call) : CallForElevator
+}
+
+class ElevatorTimeEstimation {
+- int elevator;
+- double fullTime;
+- boolean wasTheElevatorWaite;
++ getElevator():int
++ setElevator(int elevator) : void
++ getFullTime() : double
++ setFullTime(double fullTime) : void
++ isWasTheElevatorWaite() : boolean
++ setWasTheElevatorWaite(boolean wasTheElevatorWaite) : void
+}
+
+interface Building {
++ getBuildingName() : String
++ minFloor() : int
++ maxFloor() : int
++ numberOfElevetors() : int
++ getElevetor(int i) : Elevator
+}
+
+interface CallForElevator {
++getState() : int
++getTime(int state):double
++getSrc():int
++getDest():int
++getType() :int
++allocatedTo(): int
+}
+
+interface Elevator {
+#int UP = 1
+# LEVEL = 0
+# DOWN = -1
+# ERROR = -2
++ getMinFloor():int
++ getMaxFloor(): int
++getTimeForOpen():double
++ getTimeForClose():double
++ getState():int
++ getPos() : i
++ goTo(int floor) : boolean
++ stop(int floor) : boolean
++ getSpeed() : double
++ getStartTime() : double
++ getStopTime() : double
++ getID() : int
+
+
+}
+
+ElevatorAlgo <|...ElevatorAlgorithm
+ElevatorAlgorithm o-- ElevatorDestination
+ElevatorAlgorithm o-- Elevator
+ElevatorAlgorithm o-- CallForElevator
+ElevatorAlgorithm o-- Building
+ElevatorAlgorithm o-- ElevatorPrioritiesQueue
+ElevatorPrioritiesQueue o-- CallForElevator
+ElevatorDestination  o-- CallForElevator
+ElevatorTimeEstimation o-- ElevatorAlgorithm
+Elevator *-- Building
+
+
+
+
+
+
+
+@enduml
